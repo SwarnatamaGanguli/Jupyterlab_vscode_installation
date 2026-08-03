@@ -1,0 +1,440 @@
+# Python + JupyterLab + VS Code + LLM Setup — Student Training Plan
+
+**Audience:** Students new to Python, Jupyter, and AI/LLM tooling
+**Platforms covered:** Windows and macOS
+**Estimated time:** 2–3 hours (can be split across two sessions)
+
+## Learning Objectives
+
+By the end of this training, students will be able to:
+
+1. Install Anaconda and create isolated Python environments with conda
+2. Install and use JupyterLab / Jupyter Notebook
+3. Install and configure VS Code as an alternative Python/Jupyter editor
+4. Verify their environment with core data libraries (pandas, numpy, matplotlib)
+5. Install and run a local LLM with Ollama
+6. Install the OpenAI SDK and make a first API call
+
+## Prerequisites
+
+- A laptop (Windows 10/11 or macOS 12+) with admin rights to install software
+- At least 10 GB free disk space
+- Stable internet connection
+- (For Module 9–10) A free [Ollama](https://ollama.com) download and, optionally, an [OpenAI API key](https://platform.openai.com/api-keys)
+
+---
+
+## Module 1 — Install Anaconda
+
+Download Anaconda from: https://www.anaconda.com/download
+
+### Windows
+
+Run the installer with these options:
+
+- ☑ Create shortcuts
+- ☐ Add Anaconda to PATH (leave unchecked — avoids conflicts with other Python installs)
+- ☐ Register Anaconda as the default Python
+- ☑ Clear package cache (optional, saves disk space)
+
+Click **Install** and wait for it to finish.
+
+### macOS
+
+- Download the **.pkg** installer (Apple Silicon or Intel, matching your Mac)
+- Double-click the `.pkg` file and follow the prompts (default options are fine)
+- The installer adds conda to your shell profile (`~/.zshrc` by default) automatically
+
+**Checkpoint:** Installer completes with no errors.
+
+---
+
+## Module 2 — Open a Terminal
+
+### Windows
+
+Windows Search → **Anaconda Prompt**
+
+Expected prompt:
+
+```bash
+(base) C:\Users\YourName>
+```
+
+### macOS
+
+Open **Terminal** (Spotlight: `Cmd + Space` → type "Terminal"). If conda isn't recognized, close and reopen Terminal once after installation, or run:
+
+```bash
+source ~/.zshrc
+```
+
+Expected prompt:
+
+```bash
+(base) YourName@MacBook ~ %
+```
+
+**Checkpoint:** Prompt shows `(base)` at the start of the line.
+
+---
+
+## Module 3 — Conda Environments
+
+### Check existing environments
+
+```bash
+conda env list
+```
+
+### Create a clean environment
+
+```bash
+conda create -n learning_env python=3.12 -y
+```
+
+Wait for:
+
+```text
+Executing transaction: done
+```
+
+### Activate it
+
+```bash
+conda activate learning_env
+```
+
+Expected:
+
+```bash
+(learning_env) C:\Users\YourName>        # Windows
+(learning_env) YourName@MacBook ~ %      # macOS
+```
+
+Verify Python:
+
+```bash
+python --version
+```
+
+Expected: `Python 3.12.x`
+
+**Checkpoint:** Prompt shows `(learning_env)`, not `(base)`.
+
+---
+
+## Module 4 — Install Required Packages
+
+With `learning_env` active, run:
+
+```bash
+pip install jupyterlab notebook pandas numpy matplotlib ipykernel
+```
+
+| Package | Purpose |
+|---|---|
+| jupyterlab | Modern notebook interface |
+| notebook | Classic notebook |
+| pandas | Data analysis |
+| numpy | Numerical computing |
+| matplotlib | Visualization |
+| ipykernel | Connects the environment to Jupyter |
+
+Verify:
+
+```bash
+jupyter --version
+```
+
+**Checkpoint:** Command prints a version list with no "command not found" errors.
+
+---
+
+## Module 5 — Register the Environment as a Jupyter Kernel
+
+```bash
+python -m ipykernel install --user --name=learning_env --display-name "Python (learning_env)"
+```
+
+Expected:
+
+```text
+Installed kernelspec learning_env
+```
+
+---
+
+## Module 6 — Launch JupyterLab and Create a Notebook
+
+```bash
+jupyter lab
+```
+
+Browser opens at `http://localhost:8888/lab`.
+
+(Alternative, classic interface: `jupyter notebook`)
+
+Inside JupyterLab: **Notebook → Python (learning_env)** → click to open.
+
+### Verify the environment
+
+In a new cell, run:
+
+```python
+import sys
+print(sys.version)
+```
+
+Expected: `3.12.x`
+
+### Verify libraries
+
+```python
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+print("Environment Ready")
+```
+
+**Checkpoint:** No `ModuleNotFoundError`, and the version printed matches the env.
+
+### Optional — Terminal inside JupyterLab
+
+**Other → Terminal** — should show `(learning_env)` as the active environment.
+
+---
+
+## Module 7 — Install VS Code (Alternative Editor)
+
+VS Code is a lightweight code editor that can run the exact same conda environment and notebooks as JupyterLab — useful for writing scripts, debugging, and working with LLM API code alongside notebooks.
+
+### Install
+
+- Download from https://code.visualstudio.com
+- Windows: run the installer, accept defaults (check "Add to PATH" if offered)
+- macOS: drag **Visual Studio Code.app** into the Applications folder, then open it once
+
+### Install extensions
+
+Open VS Code → Extensions icon (left sidebar, or `Ctrl+Shift+X` / `Cmd+Shift+X`) → install:
+
+- **Python** (publisher: Microsoft)
+- **Jupyter** (publisher: Microsoft)
+
+### Connect VS Code to the conda environment
+
+1. Open your project folder: **File → Open Folder** → select (or create) `Python_Learning/`
+2. Create a new file `test.ipynb`
+3. Top-right of the notebook, click **Select Kernel** → choose **Python (learning_env)**
+4. Run the same verification cell from Module 6:
+
+```python
+import sys, pandas, numpy, matplotlib
+print("VS Code environment ready:", sys.version)
+```
+
+### Running plain Python scripts (not just notebooks)
+
+1. Create `hello.py` with `print("Hello from VS Code")`
+2. Bottom-right status bar → click the Python interpreter selector → choose `learning_env`
+3. Run with the ▶ button (top-right) or `Ctrl+F5` / `Cmd+F5`
+
+**Checkpoint:** The selected interpreter/kernel in VS Code shows `learning_env`, and both the notebook and the script run without import errors.
+
+---
+
+## Module 8 — Recommended Folder Structure
+
+```text
+Python_Learning/
+│
+├── notebooks/
+├── practice/
+├── projects/
+├── datasets/
+├── notes/
+└── README.md
+```
+
+Use this same folder as the VS Code workspace and the JupyterLab working directory so notebooks, scripts, and datasets stay together.
+
+---
+
+## Module 9 — Install and Run a Local LLM with Ollama
+
+Ollama lets students run open-weight LLMs (e.g., Llama, Mistral, Gemma) locally, with no API key or internet dependency once the model is downloaded.
+
+### Install
+
+- Download from https://ollama.com/download
+- **Windows:** run the `.exe` installer, accept defaults
+- **macOS:** download the `.dmg`, drag Ollama into Applications, open it once (or `brew install ollama` if using Homebrew)
+
+Verify installation in your terminal (Anaconda Prompt / Terminal):
+
+```bash
+ollama --version
+```
+
+### Pull and run a model
+
+Pull a small model suitable for laptops (~2 GB):
+
+```bash
+ollama pull llama3.2
+```
+
+Run it interactively — this is the "hello world" step:
+
+```bash
+ollama run llama3.2
+```
+
+At the prompt, type:
+
+```text
+>>> Say hello and tell me one fact about Python.
+```
+
+Type `/bye` to exit the chat.
+
+**Checkpoint:** Model responds with generated text in the terminal.
+
+### Call Ollama from Python
+
+Back in `learning_env` (Anaconda Prompt/Terminal or the VS Code integrated terminal with `learning_env` active):
+
+```bash
+pip install ollama
+```
+
+Create `ollama_hello.py`:
+
+```python
+import ollama
+
+response = ollama.chat(
+    model="llama3.2",
+    messages=[{"role": "user", "content": "Say hello in one sentence."}],
+)
+print(response["message"]["content"])
+```
+
+Run it (VS Code ▶ button, or `python ollama_hello.py` in the terminal).
+
+**Checkpoint:** Script prints a one-sentence reply from the local model.
+
+---
+
+## Module 10 — Install the OpenAI SDK and Make a First API Call
+
+This step is optional and requires a paid or trial OpenAI API key from https://platform.openai.com/api-keys. Treat the key like a password — never commit it to a notebook, script, or shared repo.
+
+### Install
+
+With `learning_env` active:
+
+```bash
+pip install openai
+```
+
+### Set the API key as an environment variable
+
+**Windows (Anaconda Prompt):**
+
+```bash
+setx OPENAI_API_KEY "your-key-here"
+```
+
+Close and reopen the terminal for it to take effect.
+
+**macOS (Terminal, zsh):**
+
+```bash
+echo 'export OPENAI_API_KEY="your-key-here"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+Verify it's set:
+
+```bash
+python -c "import os; print(bool(os.environ.get('OPENAI_API_KEY')))"
+```
+
+Expected: `True`
+
+### First API call ("hello world")
+
+Create `openai_hello.py`:
+
+```python
+from openai import OpenAI
+
+client = OpenAI()  # reads OPENAI_API_KEY from the environment
+
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": "Say hello in one sentence."}],
+)
+print(response.choices[0].message.content)
+```
+
+Run it (VS Code ▶ button, or `python openai_hello.py`).
+
+**Checkpoint:** Script prints a one-sentence reply from the API. If it errors with an authentication message, re-check the environment variable step.
+
+---
+
+## Daily Startup Workflow (for students, after setup is done)
+
+**Using JupyterLab:**
+
+```bash
+conda activate learning_env
+jupyter lab
+```
+
+**Using VS Code:**
+
+Open VS Code → open the `Python_Learning` folder → confirm the interpreter/kernel shows `learning_env` in the bottom-right or top-right corner.
+
+No reinstalling. No recreating environments. No duplicate Python installs.
+
+---
+
+## Common Commands Cheat Sheet
+
+| Action | Command |
+|---|---|
+| Deactivate environment | `conda deactivate` |
+| List environments | `conda env list` |
+| Remove environment | `conda remove --name learning_env --all` |
+| Install a package | `pip install package_name` |
+| Update a package | `pip install --upgrade package_name` |
+| List Ollama models | `ollama list` |
+| Remove an Ollama model | `ollama rm llama3.2` |
+
+---
+
+## Troubleshooting
+
+- **`conda` not recognized:** Close and reopen the terminal; on Windows, launch "Anaconda Prompt" specifically rather than the regular Command Prompt.
+- **Jupyter kernel doesn't show `learning_env`:** Re-run the Module 5 `ipykernel install` command with the environment active.
+- **VS Code doesn't list the conda environment:** Restart VS Code after creating the environment, or run `python -m ipykernel install --user --name=learning_env` again, then reload the kernel picker.
+- **`ollama` command not found after install:** Restart the terminal; on Windows, check the Ollama app is running (system tray icon).
+- **OpenAI call fails with `AuthenticationError`:** Confirm `OPENAI_API_KEY` is set in a *new* terminal window (env vars set with `setx` or added to `~/.zshrc` only apply to terminals opened afterward).
+
+---
+
+## Instructor Checkpoint Checklist
+
+Use this to confirm each student is ready before moving to LLM coursework:
+
+- [ ] `conda activate learning_env` succeeds and shows the correct prompt
+- [ ] `jupyter lab` opens and a notebook runs using the `Python (learning_env)` kernel
+- [ ] pandas / numpy / matplotlib import without errors
+- [ ] VS Code opens the same project folder with `learning_env` selected as interpreter/kernel
+- [ ] `ollama run llama3.2` returns a response in the terminal
+- [ ] `ollama_hello.py` runs successfully from Python
+- [ ] (Optional) `openai_hello.py` runs successfully with a valid API key
