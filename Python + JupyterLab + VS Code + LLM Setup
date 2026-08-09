@@ -224,7 +224,7 @@ Open VS Code → Extensions icon (left sidebar, or `Ctrl+Shift+X` / `Cmd+Shift+X
 
 ### Connect VS Code to the conda environment
 
-1. Open your project folder: **File → Open Folder** → select (or create) `Python_Learning/`
+1. Open your project folder or create a folder in desktop: **File → Open Folder** → select (or create) `Python_Learning/`
 2. Create a new file `test.ipynb`
 3. Top-right of the notebook, click **Select Kernel** → choose **Python (learning_env)**
 4. Run the same verification cell from Module 6:
