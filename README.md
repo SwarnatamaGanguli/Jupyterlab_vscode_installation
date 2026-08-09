@@ -30,6 +30,7 @@ Recommended for:
 Download Anaconda:
 
 https://www.anaconda.com/download
+or direct link - https://repo.anaconda.com/archive/Anaconda3-2025.12-2-Windows-x86_64.exe 
 
 Install with the following options:
 
