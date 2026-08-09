@@ -168,7 +168,7 @@ Installed kernelspec learning_env
 ## Module 6 — Launch JupyterLab and Create a Notebook
 
 ```bash
-jupyter lab
+jupyter lab or jupyter notebook 
 ```
 
 Browser opens at `http://localhost:8888/lab`.
@@ -181,7 +181,7 @@ Inside JupyterLab: **Notebook → Python (learning_env)** → click to open.
 
 In a new cell, run:
 
-```python
+```
 import sys
 print(sys.version)
 ```
