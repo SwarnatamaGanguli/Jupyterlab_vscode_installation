@@ -165,7 +165,7 @@ Installed kernelspec learning_env
 
 ---
 
-## Module 6 — Launch JupyterLab and Create a Notebook
+## Module 6 — Launch JupyterLab or Create a Notebook
 
 ```bash
 jupyter lab or jupyter notebook 
